@@ -5,11 +5,15 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 
 
-router.get("/edit", [auth, admin ], (req, res) => {
-  res.render("quiz/edit", {
-    title: req.query.text,
-    details: req.query.details
-  });
+// update quiz info by teacher
+router.get("/edit/:id", [auth, admin ], (req, res) => {
+  Quiz.findById(req.params.id)
+    .then(quiz => {
+      res.render("quiz/edit", {
+        quiz
+      });
+    })
+
 });
 
 router.get("/add", [ auth, admin ], (req, res) => {
@@ -17,7 +21,7 @@ router.get("/add", [ auth, admin ], (req, res) => {
 });
 
 router.get("/me", [ auth, admin ],  (req, res) => {
-  Quiz.find().sort({date: "desc"})
+  Quiz.find({byId: req.user.id}).sort({date: "desc"})
     .then(quizzes => {
       res.render("quiz/privatehome", {quizzes});
     })
@@ -27,7 +31,6 @@ router.get("/me", [ auth, admin ],  (req, res) => {
 router.get("/", auth, (req, res) => {
   Quiz.find({publish : true}).sort({date: "desc"})
     .then((quizzes) => {
-      console.log(quizzes)
       res.render("quiz/index", {
         quizzes
       });
@@ -43,7 +46,6 @@ router.get("/edit/:id", [ auth, admin ], (req, res) => {
       });
     })
 }); 
-
 
 router.get("/:id", auth, (req, res) => {
   Quiz.findById(req.params.id)
@@ -70,10 +72,12 @@ router.post("/", [ auth, admin ], (req, res) => {
     });
   }
   else {
+    
     const quiz = new Quiz ({
       title: req.body.title,
       details: req.body.details,
-      by: req.user.name
+      byId: req.user.id,
+      byName: req.user.name
     });
 
     quiz.save()
@@ -113,7 +117,6 @@ router.post("/submit", auth, async (req, res) => {
 
 //teacher update quiz info
 router.put("/:id", [ auth, admin ], (req, res) => {
-  console.log(req.params.id);
   Quiz.findById(req.params.id)
     .then(quiz => {
       quiz.title = req.body.title;
@@ -122,7 +125,7 @@ router.put("/:id", [ auth, admin ], (req, res) => {
       quiz.save()
         .then(user => {
           req.flash("success_msg", "Quiz Updated");
-          res.redirect("/quizzes");
+          res.redirect("/quizzes/me");
         })
     })
 });
@@ -144,9 +147,28 @@ router.put("/publish/:id", [ auth, admin ], (req, res) => {
             res.redirect("/quizzes");
           })
       }
-    })
-    
+    })  
 });
+
+
+router.put("/unpublish/:id", [ auth, admin ], (req, res) => {
+  
+  Quiz.findById(req.params.id)
+    .then(quiz => {
+      if(!quiz.publish){
+        req.flash("error_msg", "this Quiz is Already unPublished");
+        res.redirect("/quizzes/me");
+      } else {
+        quiz.publish = false;
+        quiz.save()
+          .then(quiz => {
+            req.flash("success_msg", "Quiz unPublished")
+            res.redirect("/quizzes/me");
+          })
+      }
+    })  
+});
+
 
 router.delete("/:id", [ auth, admin ],(req, res) => {
   Quiz.findByIdAndDelete(req.params.id)

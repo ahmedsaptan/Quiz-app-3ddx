@@ -29,7 +29,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">{{#if user.isAdmin}} Teacher {{else}} Student{{/if}}</a>
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">{{#if user.isAdmin}} Teacher {{else}} Student{{/if}} {{user.name}} </a>
           <div class="dropdown-menu">
             {{#if user.isAdmin}}
             {{else}}

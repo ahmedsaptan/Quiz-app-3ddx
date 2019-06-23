@@ -3,14 +3,19 @@
     <h4>{{title}}</h4>
     <p>{{details}}</p>
 
-
+    {{#if publish}}
+    <form method="post" action="/quizzes/unpublish/{{id}}?_method=PUT">
+      <input type="hidden" name="_method" value="PUT">
+      <input type="submit" class="btn btn-success btn-block" value="UnPublish">
+    </form>
+    {{else}}
     <form method="post" action="/quizzes/publish/{{id}}?_method=PUT">
       <input type="hidden" name="_method" value="PUT">
       <input type="submit" class="btn btn-success btn-block" value="Publish">
     </form>
-  
+    {{/if}}
     
-    <a href="/quizzes/edit?title={{title}}&details={{details}}" class="btn btn-dark btn-block" >Update</a>
+    <a href="/quizzes/edit/{{id}}" class="btn btn-dark btn-block" >Update</a>
 
     <form method="post" action="/quizzes/{{id}}?_method=DELETE">
       <input type="hidden" name="_method" value="DELETE">

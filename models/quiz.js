@@ -29,7 +29,11 @@ const quizSchema = new mongoose.Schema({
     required: true
   },
   questions: [ questionSchema ],
-  by: {
+  byId: {
+    type: String,
+    required: true
+  },
+  byName:{
     type: String,
     required: true
   },
