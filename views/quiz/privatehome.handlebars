@@ -1,0 +1,32 @@
+{{#each quizzes}}
+  <div class="card card-body mb-2">
+    <h4>{{title}}</h4>
+    <p>{{details}}</p>
+
+
+    <form method="post" action="/quizzes/publish/{{id}}?_method=PUT">
+      <input type="hidden" name="_method" value="PUT">
+      <input type="submit" class="btn btn-success btn-block" value="Publish">
+    </form>
+  
+    
+    <a href="/quizzes/edit?title={{title}}&details={{details}}" class="btn btn-dark btn-block" >Update</a>
+
+    <form method="post" action="/quizzes/{{id}}?_method=DELETE">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" class="btn btn-danger btn-block" value="Delete">
+    </form>
+
+    <form method="get" action="/questions/{{id}}">
+      <input type="submit" class="btn btn-primary btn-block" value="Add Questions">
+    </form>
+
+    <form method="get" action="/quizzes/{{id}}">
+      <input type="submit" class="btn btn-dark btn-block" value="View Quiz">
+    </form>
+
+  </div>
+
+{{else}}
+  <p>No Quizes Listed</p>
+{{/each}}

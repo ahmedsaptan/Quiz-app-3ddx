@@ -1,0 +1,9 @@
+{{#each grads}}
+  <div class="card card-body mb-2">
+    <h4>Quiz Title : {{quizTitle}}</h4>
+    <p>Your Result : {{result}}</p>
+    <a class="btn btn-dark btn-block mb-2" href="/quizzes/{{quizId}}">View Quiz</a>
+  </div>
+{{else}}
+  <p>No grads listed</p>
+{{/each}}

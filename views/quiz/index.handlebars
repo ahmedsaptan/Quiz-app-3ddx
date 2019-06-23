@@ -1,0 +1,11 @@
+{{#each quizzes}}
+  <div class="card card-body mb-2">
+    <h4>{{title}}</h4>
+    <p>{{details}}</p>
+    <p>Created By {{by}}</p>
+    <a href="/quizzes/{{id}}" class="btn btn-primary btn-block"> View Quiz </a>
+  </div>
+
+{{else}}
+  <p>No Quizes Listed</p>
+{{/each}}

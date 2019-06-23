@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
+  <div class="container">
+    <a class="navbar-brand" href="/"> Quiz App </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link" href="/"> Home </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/about"> About </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        {{#if user}}
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Quizzes</a>
+          <div class="dropdown-menu">
+            <a href="/quizzes" class="dropdown-item"> Published Quizzes </a>
+            {{#if user.isAdmin}}
+            <a href="/quizzes/add" class="dropdown-item"> Add Quize </a>
+            <a href="/quizzes/me" class="dropdown-item"> All Quizzes </a>
+            {{/if}}
+          </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">{{#if user.isAdmin}} Teacher {{else}} Student{{/if}}</a>
+          <div class="dropdown-menu">
+            {{#if user.isAdmin}}
+            {{else}}
+            <a href="/users/grads" class="dropdown-item">Grads</a>
+            {{/if}}
+            <a href="/users/logout" class="dropdown-item">Logout</a>
+          </div>
+          </li>
+      
+        {{else}}
+          <li class="nav-item">
+            <a href="/users/login" class="nav-link"> Login </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/users/register" class="nav-link"> Register </a>
+          </li>
+
+        {{/if}}
+      </ul>
+      </div>
+  </div>
+</nav>
+

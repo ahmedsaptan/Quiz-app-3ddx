@@ -1,0 +1,25 @@
+<div class="card card-body mb-2">
+  <h4>Title : {{quiz.title}}</h4>
+  <p>Details : {{quiz.details}}</p>
+</div>
+
+<form action="/quizzes/submit?id={{quiz.id}}" method="POST">
+  {{#each quiz.questions}}
+    <div class="card card-body mb-2">
+      <h4>{{question}}</h4>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Answers</label>
+            </div>
+              <select class="custom-select" id="inputGroupSelect01" name="ans">
+                <option selected >Choose...</option>
+                <option value={{answers.[0]}}>{{answers.[0]}}</option>
+                <option value={{answers.[1]}}>{{answers.[1]}}</option>
+                <option value={{answers.[2]}}>{{answers.[2]}}</option>
+                <option value={{answers.[3]}}>{{answers.[3]}}</option>
+              </select>
+          </div>
+    </div>
+  {{/each}}
+  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+</form>
