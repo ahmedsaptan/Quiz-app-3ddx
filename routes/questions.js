@@ -22,7 +22,7 @@ router.post("/", [ auth, admin ], async (req, res) => {
     correct: req.body.correct,
     explanation: req.body.explanation
   };
-  console.log(queryQuestion);
+  // console.log(queryQuestion);
   let questions = JSON.parse(localStoarge.getItem("ques"));
   if(!questions) questions = [];
   questions.push(queryQuestion);
@@ -36,15 +36,16 @@ router.post("/", [ auth, admin ], async (req, res) => {
   localStoarge.clear();
   try
   {
-    console.log(questions);
+    // console.log(questions);
     const quiz = await Quiz.findByIdAndUpdate(id, {
     questions: questions
     });
-    console.log(quiz);
+    // console.log(quiz);
     res.redirect("/quizzes/me");
   }
-  catch(ex){
-    res.send(ex);
+  catch(err){
+    req.flash("error_msg", err);
+    res.redirect("/");
   }
 });
 

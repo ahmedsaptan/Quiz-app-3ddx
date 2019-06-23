@@ -1,10 +1,9 @@
 const router = require("express").Router();
-const mongoose = require("mongoose");
 const { User } = require("../models/user");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const auth = require("../middleware/auth");
-const admin = require("../middleware/admin");
+const notAdmin = require("../middleware/notadmin");
 const localStorage = require("localStorage");
 
 
@@ -35,7 +34,6 @@ router.get("/register", (req, res) => {
 
 //route for registeration
 router.post("/", async (req, res) => {
-  console.log
   let errors = []
   if(req.body.password !== req.body.password2){
     errors.push({
@@ -79,10 +77,10 @@ router.post("/", async (req, res) => {
 });
 
 
-router.get("/grads", auth, (req, res) => {
+router.get("/grads", [ auth, notAdmin ], (req, res) => {
   User.findById(req.user.id)
     .then(user => {
-      console.log("user from grads", user);
+      // console.log("user from grads", user);
       res.render("users/grads", { grads: user.grads})
     })
 });

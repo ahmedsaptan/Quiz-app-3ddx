@@ -3,7 +3,7 @@ const { Quiz } = require("../models/quiz");
 const { User } = require("../models/user");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
-
+const notAdmin  =require("../middleware/notadmin");
 
 // update quiz info by teacher
 router.get("/edit/:id", [auth, admin ], (req, res) => {
@@ -92,7 +92,7 @@ router.post("/", [ auth, admin ], (req, res) => {
 
 
 //when a student submit sol of an quiz
-router.post("/submit", auth, async (req, res) => {
+router.post("/submit", [ auth, notAdmin ], async (req, res) => {
   const studentAnswers = req.body.ans;
   const quizId = req.query.id;
   const quiz = await Quiz.findById(quizId);

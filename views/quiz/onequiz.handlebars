@@ -21,5 +21,9 @@
           </div>
     </div>
   {{/each}}
-  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  {{#if user.isAdmin}}
+    <button type="submit" class="btn btn-primary btn-block" disabled>Submit</button>
+  {{else}}
+    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  {{/if}}
 </form>
