@@ -41,6 +41,7 @@ router.post("/", [ auth, admin ], async (req, res) => {
     questions: questions
     });
     // console.log(quiz);
+    req.flash("success_msg", `you add ${questions.length} Questions`);
     res.redirect("/quizzes/me");
   }
   catch(err){

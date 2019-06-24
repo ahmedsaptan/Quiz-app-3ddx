@@ -119,6 +119,10 @@ router.post("/submit", [ auth, notAdmin ], async (req, res) => {
 router.put("/:id", [ auth, admin ], (req, res) => {
   Quiz.findById(req.params.id)
     .then(quiz => {
+      if(quiz.publish) {
+        req("error_msg", "the Quiz is Publish You can't Update it, unpublish it first");
+        return res.redirect("/quizzes/me");
+      }
       quiz.title = req.body.title;
       quiz.details = req.body.details;
 
@@ -171,10 +175,16 @@ router.put("/unpublish/:id", [ auth, admin ], (req, res) => {
 
 
 router.delete("/:id", [ auth, admin ],(req, res) => {
-  Quiz.findByIdAndDelete(req.params.id)
+  Quiz.findById(req.params.id)
     .then(quiz => {
+      if(quiz.publish) {
+        req.flash("error_msg", "the Quiz is Publish You can't Update it, unpublish it first");
+        return res.redirect("/quizzes/me");
+      } 
+      quiz.remove();
       req.flash("success_msg", "Quiz Removed");
       res.redirect("/quizzes/me");
+
     })
 });
 
