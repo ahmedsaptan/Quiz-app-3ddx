@@ -140,9 +140,13 @@ router.put("/publish/:id", [ auth, admin ], (req, res) => {
   
   Quiz.findById(req.params.id)
     .then(quiz => {
+      if(quiz.questions.length === 0){
+        req.flash("error_msg", "Can't publish empty Quiz, please add questions to it");
+        return res.redirect("/quizzes/me");
+      }
       if(quiz.publish){
         req.flash("error_msg", "this Quiz is Already Published");
-        res.redirect("/quizzes/me");
+        return res.redirect("/quizzes/me");
       } else {
         quiz.publish = true;
         quiz.save()
